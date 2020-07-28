@@ -1,0 +1,78 @@
+@echo off
+C:
+cd\
+del ACBr*.bpl ACBr*.dcp ACBr*.dcu PCN*.bpl PCN*.dcp PCN*.dcu SYNA*.bpl SYNA*.dcp SYNA*.dcu pnfs*.dcu pcte*.bpl pcte*.dcp pcte*.dcu pmdfe*.bpl pmdfe*.dcp pmdfe*.dcu pgnre*.dcp pgnre*.bpl pces*.bpl pgnre*.dcu pces*.dcp pces*.dcu pca*.dcp pca*.dcu /s
+
+D:
+cd\
+del ACBr*.bpl ACBr*.dcp ACBr*.dcu PCN*.bpl PCN*.dcp PCN*.dcu SYNA*.bpl SYNA*.dcp SYNA*.dcu pnfs*.dcu pcte*.bpl pcte*.dcp pcte*.dcu pmdfe*.bpl pmdfe*.dcp pmdfe*.dcu pgnre*.dcp pgnre*.bpl pces*.bpl pgnre*.dcu pces*.dcp pces*.dcu pca*.dcp pca*.dcu /s
+
+E:
+cd\
+del ACBr*.bpl ACBr*.dcp ACBr*.dcu PCN*.bpl PCN*.dcp PCN*.dcu SYNA*.bpl SYNA*.dcp SYNA*.dcu pnfs*.dcu pcte*.bpl pcte*.dcp pcte*.dcu pmdfe*.bpl pmdfe*.dcp pmdfe*.dcu pgnre*.dcp pgnre*.bpl pces*.bpl pgnre*.dcu pces*.dcp pces*.dcu pca*.dcp pca*.dcu /s
+
+
+@ECHO off
+@SET BDS=C:\Program Files\CodeGear\RAD Studio\5.0
+@SET BUILD=..\build\EagleERP\
+@SET BDSCOMMONDIR=C:\Users\Public\Documents\RAD Studio\5.0
+@SET FrameworkDir=C:\Windows\Microsoft.NET\Framework\
+@SET FrameworkVersion=v2.0.50727
+@SET FrameworkSDKDir=
+@SET PATH=%FrameworkDir%%FrameworkVersion%;%FrameworkSDKDir%;%PATH%
+
+echo ******************************************************************************
+echo ***                 Compilando projeto em modo Release                     ***
+echo ******************************************************************************
+
+call %BUILD%Clean.bat
+
+msbuild /target:Build /p:Configuration=Release ..\projects\eagleerp\src\BuildAll.groupproj
+
+echo ******************************************************************************
+echo ***                          Comprimindo Arquivos                          ***
+echo ******************************************************************************
+
+call UPXCompress.bat
+
+echo ******************************************************************************
+echo ***                          Compilando Updater Release                    ***
+echo ******************************************************************************
+
+msbuild /target:Build /p:Configuration=Release ..\projects\eagleerp\src\subprojects\Updater\src\Updater.dproj
+
+echo ******************************************************************************
+echo ***                      Comprimindo Updater Release                       ***
+echo ******************************************************************************
+
+del /Q "..\..\..\..\build\EagleERP\Compressed\Updater.exe"
+upx -9 -o "..\..\..\..\build\EagleERP\Compressed\Updater.exe" "..\..\..\..\build\EagleERP\Updater.exe"
+copy "..\..\..\..\build\EagleERP\Compressed\Updater.exe" "output\UpdaterRelease2014.006b.exe"
+
+echo ******************************************************************************
+echo ***                 Compilando projeto em modo Debug                       ***
+echo ******************************************************************************
+
+call %BUILD%Clean.bat
+
+msbuild /target:Build /p:Configuration=Debug ..\projects\eagleerp\src\BuildAll.groupproj
+
+echo ******************************************************************************
+echo ***                          Comprimindo Arquivos                          ***
+echo ******************************************************************************
+
+call UPXCompress.bat
+
+echo ******************************************************************************
+echo ***                          Compilando Updater Debug                      ***
+echo ******************************************************************************
+
+msbuild /target:Build /p:Configuration=Debug ..\projects\eagleerp\src\subprojects\Updater\src\Updater.dproj
+
+echo ******************************************************************************
+echo ***                      Comprimindo Updater Debug                         ***
+echo ******************************************************************************
+
+del /Q "..\..\..\..\build\EagleERP\Compressed\Updater.exe"
+upx -9 -o "..\..\..\..\build\EagleERP\Compressed\Updater.exe" "..\..\..\..\build\EagleERP\Updater.exe"
+copy "..\..\..\..\build\EagleERP\Compressed\Updater.exe" "output\UpdaterDebug2014.006b.exe"
