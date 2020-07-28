@@ -1,3 +1,5 @@
+Exemplo de limpeza dos arquivos temporários:
+
 @echo off
 C:
 cd\
@@ -11,6 +13,7 @@ E:
 cd\
 del ACBr*.bpl ACBr*.dcp ACBr*.dcu PCN*.bpl PCN*.dcp PCN*.dcu SYNA*.bpl SYNA*.dcp SYNA*.dcu pnfs*.dcu pcte*.bpl pcte*.dcp pcte*.dcu pmdfe*.bpl pmdfe*.dcp pmdfe*.dcu pgnre*.dcp pgnre*.bpl pces*.bpl pgnre*.dcu pces*.dcp pces*.dcu pca*.dcp pca*.dcu /s
 
+Aqui é o scritp para build. Pode trocar Build por Clean para limpar antes do build - testar isso
 
 @ECHO off
 @SET BDS=C:\Program Files\CodeGear\RAD Studio\5.0
